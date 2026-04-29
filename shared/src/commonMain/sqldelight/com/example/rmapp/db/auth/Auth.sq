@@ -1,0 +1,34 @@
+CREATE TABLE role (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL UNIQUE, -- OWNER, MANAGER, WORKER
+    description TEXT
+);
+
+CREATE TABLE user (
+    id TEXT PRIMARY KEY,
+    username TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+    roleId TEXT NOT NULL,
+    isActive INTEGER NOT NULL DEFAULT 1,
+    lastLoginAt INTEGER,
+    createdAt INTEGER NOT NULL,
+    updatedAt INTEGER NOT NULL,
+    FOREIGN KEY(roleId) REFERENCES role(id)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE
+);
+
+CREATE INDEX idx_user_role ON user(roleId);
+
+getUserByUsername:
+SELECT * FROM user WHERE username = ? AND isActive = 1;
+
+insertUser:
+INSERT INTO user (
+    id, username, password, roleId, isActive, lastLoginAt, createdAt, updatedAt
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+
+updateLastLogin:
+UPDATE user
+SET lastLoginAt = ?, updatedAt = ?
+WHERE id = ?;

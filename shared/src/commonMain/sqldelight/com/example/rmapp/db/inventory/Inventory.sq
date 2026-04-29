@@ -1,0 +1,28 @@
+CREATE TABLE raw_material (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    unit TEXT NOT NULL,
+    price REAL NOT NULL,
+    quantity REAL NOT NULL DEFAULT 0
+);
+
+getAllMaterials:
+SELECT * FROM raw_material
+ORDER BY name;
+
+searchMaterials:
+SELECT * FROM raw_material
+WHERE name LIKE '%' || ? || '%';
+
+insertMaterial:
+INSERT INTO raw_material(name, unit, price, quantity)
+VALUES (?, ?, ?, ?);
+
+updateMaterial:
+UPDATE raw_material
+SET name = ?, unit = ?, price = ?, quantity = ?
+WHERE id = ?;
+
+deleteMaterial:
+DELETE FROM raw_material
+WHERE id = ?;

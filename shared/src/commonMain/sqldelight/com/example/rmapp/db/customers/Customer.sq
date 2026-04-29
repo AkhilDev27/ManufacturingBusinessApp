@@ -1,0 +1,27 @@
+CREATE TABLE customer (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    phone TEXT,
+    address TEXT
+);
+
+getAllCustomers:
+SELECT * FROM customer
+ORDER BY name;
+
+searchCustomers:
+SELECT * FROM customer
+WHERE name LIKE '%' || ? || '%';
+
+insertCustomer:
+INSERT INTO customer(name, phone, address)
+VALUES (?, ?, ?);
+
+updateCustomer:
+UPDATE customer
+SET name = ?, phone = ?, address = ?
+WHERE id = ?;
+
+deleteCustomer:
+DELETE FROM customer
+WHERE id = ?;

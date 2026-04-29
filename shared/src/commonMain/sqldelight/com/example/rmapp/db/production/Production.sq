@@ -1,0 +1,19 @@
+CREATE TABLE production (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    date TEXT NOT NULL,
+    inputQty REAL NOT NULL,
+    outputQty REAL NOT NULL,
+    wastageQty REAL NOT NULL
+);
+
+getAllBatches:
+SELECT * FROM production
+ORDER BY date DESC;
+
+insertBatch:
+INSERT INTO production(date, inputQty, outputQty, wastageQty)
+VALUES (?, ?, ?, ?);
+
+deleteBatch:
+DELETE FROM production
+WHERE id = ?;

@@ -1,0 +1,26 @@
+CREATE TABLE stock_transaction (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    productId INTEGER NOT NULL,
+    type TEXT NOT NULL, -- IN / OUT
+    quantity REAL NOT NULL,
+    date TEXT NOT NULL,
+    referenceId INTEGER
+);
+
+insertTransaction:
+INSERT INTO stock_transaction(productId, type, quantity, date, referenceId)
+VALUES (?, ?, ?, ?, ?);
+
+getAllTransactions:
+SELECT * FROM stock_transaction
+ORDER BY date DESC;
+
+getTransactionsByProduct:
+SELECT * FROM stock_transaction
+WHERE productId = ?
+ORDER BY date DESC;
+
+getTransactionsByDate:
+SELECT * FROM stock_transaction
+WHERE date BETWEEN ? AND ?
+ORDER BY date DESC;

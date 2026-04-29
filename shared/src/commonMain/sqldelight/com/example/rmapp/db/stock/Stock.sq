@@ -1,0 +1,32 @@
+CREATE TABLE stock (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    quantity REAL NOT NULL,
+    unitPrice REAL NOT NULL,
+    minimumThreshold REAL NOT NULL
+);
+
+getAllStock:
+SELECT * FROM stock;
+
+insertStock:
+INSERT INTO stock(name, quantity, unitPrice, minimumThreshold)
+VALUES (?, ?, ?, ?);
+
+updateStock:
+UPDATE stock
+SET name = ?, quantity = ?, unitPrice = ?, minimumThreshold = ?
+WHERE id = ?;
+
+deleteStock:
+DELETE FROM stock
+WHERE id = ?;
+
+updateStockQuantity:
+UPDATE stock
+SET quantity = quantity + ?
+WHERE id = ?;
+
+getLowStock:
+SELECT * FROM stock
+WHERE quantity < minimumThreshold;

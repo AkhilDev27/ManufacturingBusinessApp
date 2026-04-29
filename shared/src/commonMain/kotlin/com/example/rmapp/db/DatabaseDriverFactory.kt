@@ -1,0 +1,7 @@
+package com.example.rmapp.db
+
+import app.cash.sqldelight.db.SqlDriver
+
+expect class DatabaseDriverFactory() {
+    fun createDriver(): SqlDriver
+}

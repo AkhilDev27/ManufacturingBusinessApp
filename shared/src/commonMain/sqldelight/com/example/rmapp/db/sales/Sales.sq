@@ -1,0 +1,40 @@
+CREATE TABLE sales (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    customerId INTEGER,
+    totalAmount REAL NOT NULL,
+    date TEXT NOT NULL
+);
+
+CREATE TABLE sales_item (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    saleId INTEGER NOT NULL,
+    productId INTEGER NOT NULL,
+    quantity REAL NOT NULL,
+    price REAL NOT NULL,
+    total REAL NOT NULL
+);
+
+-- Insert Sale
+insertSale:
+INSERT INTO sales(customerId, totalAmount, date)
+VALUES (?, ?, ?);
+
+-- Insert Line Item
+insertSalesItem:
+INSERT INTO sales_item(saleId, productId, quantity, price, total)
+VALUES (?, ?, ?, ?, ?);
+
+-- Get All Sales
+getAllSales:
+SELECT * FROM sales
+ORDER BY date DESC;
+
+-- Get Items for a Sale
+getItemsBySaleId:
+SELECT * FROM sales_item
+WHERE saleId = ?;
+
+-- Get Today Sales (for dashboard)
+getTodaySales:
+SELECT * FROM sales
+WHERE date = date('now');

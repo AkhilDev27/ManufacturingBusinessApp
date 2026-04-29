@@ -1,0 +1,12 @@
+CREATE TABLE permission (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL UNIQUE -- CREATE_ORDER, VIEW_REPORTS
+);
+
+CREATE TABLE role_permission (
+    roleId TEXT NOT NULL,
+    permissionId TEXT NOT NULL,
+    PRIMARY KEY(roleId, permissionId),
+    FOREIGN KEY(roleId) REFERENCES role(id),
+    FOREIGN KEY(permissionId) REFERENCES permission(id)
+);

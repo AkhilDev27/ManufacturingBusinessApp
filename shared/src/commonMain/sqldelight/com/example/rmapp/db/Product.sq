@@ -1,7 +1,0 @@
-CREATE TABLE Product (
-    id INTEGER NOT NULL PRIMARY KEY,
-    name TEXT NOT NULL,
-    unit TEXT NOT NULL,
-    price REAL NOT NULL,
-    stockQty REAL NOT NULL
-);

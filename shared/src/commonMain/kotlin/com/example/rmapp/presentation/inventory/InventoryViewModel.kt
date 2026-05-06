@@ -1,54 +1,58 @@
 package com.example.rmapp.presentation.inventory
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rmapp.domain.model.RawMaterial
 import com.example.rmapp.domain.usecase.InventoryUseCase
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class InventoryViewModel(
-    private val useCases: InventoryUseCase
+    private val useCase: InventoryUseCase
 ) : ViewModel() {
 
-    var items by mutableStateOf(listOf<RawMaterial>())
-        private set
+    private val _searchQuery = MutableStateFlow("")
+    val searchQuery = _searchQuery.asStateFlow()
 
-    var editingItem by mutableStateOf<RawMaterial?>(null)
-        private set
+    private val _editing = MutableStateFlow<RawMaterial?>(null)
+    val editing = _editing.asStateFlow()
 
-    init {
-        load()
-    }
+    val items =
+        _searchQuery
+            .debounce(300)
+            .flatMapLatest {
+                if (it.isBlank()) useCase.getAll()
+                else useCase.search(it)
+            }
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
-    fun load() {
-        viewModelScope.launch {
-            items = useCases.getAll()
-        }
+    fun search(q: String) {
+        _searchQuery.value = q
     }
 
     fun save(item: RawMaterial) {
         viewModelScope.launch {
-            useCases.save(item)
-            load()
-            editingItem = null
+            val e = _editing.value
+            if (e != null) useCase.update(item.copy(id = e.id))
+            else useCase.add(item)
+            _editing.value = null
         }
     }
 
     fun delete(id: String) {
-        viewModelScope.launch {
-            useCases.delete(id)
-            load()
-        }
+        viewModelScope.launch { useCase.delete(id) }
     }
 
     fun edit(item: RawMaterial) {
-        editingItem = item
+        _editing.value = item
     }
 
     fun clearEdit() {
-        editingItem = null
+        _editing.value = null
     }
 }

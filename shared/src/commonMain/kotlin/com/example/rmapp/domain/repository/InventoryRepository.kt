@@ -1,9 +1,17 @@
 package com.example.rmapp.domain.repository
 
 import com.example.rmapp.domain.model.RawMaterial
+import kotlinx.coroutines.flow.Flow
 
 interface InventoryRepository {
-    suspend fun getAll(): List<RawMaterial>
-    suspend fun upsert(item: RawMaterial) // handles add + edit
+
+    fun getAll(): Flow<List<RawMaterial>>
+
+    fun search(query: String): Flow<List<RawMaterial>>
+
+    suspend fun insert(item: RawMaterial)
+
+    suspend fun update(item: RawMaterial)
+
     suspend fun delete(id: String)
 }

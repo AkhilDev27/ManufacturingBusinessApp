@@ -1,9 +1,8 @@
 package com.example.rmapp.domain.model
 
-data class StockItem(
-    val id: Long,
-    val name: String,
+data class Stock(
+    val id: String = "",
+    val productId: String,
     val quantity: Double,
-    val unitPrice: Double,
     val minimumThreshold: Double
 )

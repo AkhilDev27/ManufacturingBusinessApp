@@ -1,19 +1,28 @@
 package com.example.rmapp.presentation.main
 
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.foundation.layout.padding
-import androidx.navigation.compose.*
-import androidx.compose.ui.Modifier
-import com.example.rmapp.domain.repository.InventoryRepositoryImpl
-import com.example.rmapp.domain.usecase.InventoryUseCase
-import com.example.rmapp.presentation.dashboard.DashboardScreen
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.rmapp.presentation.bottom_navigation.BottomNavigationBar
 import com.example.rmapp.presentation.bottom_navigation.NavigationItem
+import com.example.rmapp.presentation.customers.CustomerFormScreen
+import com.example.rmapp.presentation.customers.CustomerScreen
+import com.example.rmapp.presentation.customers.CustomerViewModel
+import com.example.rmapp.presentation.dashboard.DashboardScreen
+import com.example.rmapp.presentation.inventory.InventoryFormScreen
 import com.example.rmapp.presentation.inventory.InventoryScreen
 import com.example.rmapp.presentation.inventory.InventoryViewModel
 import com.example.rmapp.presentation.master.MasterScreen
+import com.example.rmapp.presentation.products.ProductFormScreen
+import com.example.rmapp.presentation.products.ProductScreen
+import com.example.rmapp.presentation.products.ProductViewModel
+import com.example.rmapp.presentation.stock.StockScreen
+import com.example.rmapp.presentation.stock.StockViewModel
 import com.example.rmapp.ui.utils.AppRoutes
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun MainContainerScreen() {
@@ -23,12 +32,10 @@ fun MainContainerScreen() {
     Scaffold(
         bottomBar = {
             BottomNavigationBar(navController)
-        }
-    ) { padding ->
+        }) { padding ->
 
         NavHost(
-            navController = navController,
-            startDestination = NavigationItem.Home.route
+            navController = navController, startDestination = NavigationItem.Home.route
         ) {
 
             composable(NavigationItem.Home.route) {
@@ -37,21 +44,62 @@ fun MainContainerScreen() {
 
             composable(NavigationItem.Master.route) {
                 MasterScreen(
-                    onProductsClick = { /* navigate to products */ },
-                    onCustomersClick = { /* navigate to customers */ },
-                    onInventoryClick = { navController.navigate(AppRoutes.INVENTORY) }
-                )
+                    onProductsClick = { navController.navigate(AppRoutes.PRODUCTS) },
+                    onCustomersClick = { navController.navigate(AppRoutes.CUSTOMERS) },
+                    onInventoryClick = { navController.navigate(AppRoutes.INVENTORY) })
+            }
+
+            composable(AppRoutes.STOCK) {
+                val vm: StockViewModel = koinViewModel()
+                StockScreen(vm)
+            }
+
+            composable(AppRoutes.PRODUCTS) {
+                val vm: ProductViewModel = koinViewModel()
+                ProductScreen(vm, navController)
+            }
+
+            composable(AppRoutes.PRODUCTS_FORM) {
+                val vm: ProductViewModel = koinViewModel()
+                ProductFormScreen(vm, navController, null)
+            }
+
+            composable(AppRoutes.PRODUCTS_FORM_WITH_ID) { backStack ->
+                val vm: ProductViewModel = koinViewModel()
+                val id = backStack.arguments?.getString("productId")
+                ProductFormScreen(vm, navController, id)
+            }
+
+            composable(AppRoutes.CUSTOMERS) {
+                val vm: CustomerViewModel = koinViewModel()
+                CustomerScreen(vm, navController)
+            }
+
+            composable(AppRoutes.CUSTOMERS_FORM) {
+                val vm: CustomerViewModel = koinViewModel()
+                CustomerFormScreen(vm, navController, null)
+            }
+
+            composable(AppRoutes.CUSTOMERS_FORM_WITH_ID) { backStack ->
+                val vm: CustomerViewModel = koinViewModel()
+                val id = backStack.arguments?.getString("customerId")
+                CustomerFormScreen(vm, navController, id)
             }
 
             composable(AppRoutes.INVENTORY) {
-                val vm = remember {
-                    InventoryViewModel(
-                        InventoryUseCase(
-                            InventoryRepositoryImpl()
-                        )
-                    )
-                }
-                InventoryScreen(vm)
+                val vm: InventoryViewModel = koinViewModel()
+                InventoryScreen(vm, navController)
+            }
+
+            composable(AppRoutes.INVENTORY_FORM) {
+                val vm: InventoryViewModel = koinViewModel()
+                InventoryFormScreen(vm, navController, null)
+            }
+
+            composable(AppRoutes.INVENTORY_FORM_WITH_ID) { backStack ->
+                val vm: InventoryViewModel = koinViewModel()
+                val id = backStack.arguments?.getString("inventoryId")
+                InventoryFormScreen(vm, navController, id)
             }
 
             composable(NavigationItem.Reports.route) {

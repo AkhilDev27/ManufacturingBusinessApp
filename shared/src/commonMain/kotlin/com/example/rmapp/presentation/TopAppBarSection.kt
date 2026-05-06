@@ -17,6 +17,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
 import rmapp.shared.generated.resources.Res
+import rmapp.shared.generated.resources.ic_add
+import rmapp.shared.generated.resources.ic_back
 import rmapp.shared.generated.resources.ic_home
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -36,14 +38,14 @@ fun TopAppBarSection(title: String,
             )
         },
         navigationIcon = {
-            Icon(
-                painter = painterResource(Res.drawable.ic_home),
-                contentDescription = "Back",
-                modifier = Modifier
-                    .clickable { }
-                    .padding(horizontal = 16.dp)
-                    .size(24.dp)
-            )
+            if (showBack) {
+                IconButton(onClick = { onBackClick() }) {
+                    Icon(
+                        painter = painterResource(Res.drawable.ic_back),
+                        contentDescription = "Back"
+                    )
+                }
+            }
         },
 //        colors = TopAppBarDefaults.topAppBarColors(
 //            containerColor = Color.White
@@ -52,7 +54,7 @@ fun TopAppBarSection(title: String,
 
             if (showItem) {
                 Icon(
-                    painter = painterResource(Res.drawable.ic_home),
+                    painter = painterResource(Res.drawable.ic_add),
                     contentDescription = "Add",
                     modifier = Modifier
                         .clickable { onItemClick() }

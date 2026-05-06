@@ -1,0 +1,28 @@
+CREATE TABLE product (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    unit TEXT NOT NULL,
+    sellingPrice REAL,
+    costPrice REAL
+);
+
+getAllProducts:
+SELECT * FROM product
+ORDER BY name;
+
+searchProducts:
+SELECT * FROM product
+WHERE name LIKE '%' || ? || '%';
+
+insertProduct:
+INSERT INTO product(name, unit, sellingPrice, costPrice)
+VALUES (?, ?, ?, ?);
+
+updateProduct:
+UPDATE product
+SET name = ?, unit = ?, sellingPrice = ?, costPrice = ?
+WHERE id = ?;
+
+deleteProduct:
+DELETE FROM product
+WHERE id = ?;

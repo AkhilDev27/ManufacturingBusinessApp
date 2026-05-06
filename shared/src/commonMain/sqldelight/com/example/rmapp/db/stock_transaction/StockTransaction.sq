@@ -1,0 +1,21 @@
+CREATE TABLE stock_transaction (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    productId INTEGER NOT NULL,
+    type TEXT NOT NULL, -- PRODUCTION / SALE / ADJUSTMENT
+    quantity REAL NOT NULL,
+    note TEXT,
+    createdAt TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+insertTransaction:
+INSERT INTO stock_transaction(productId, type, quantity, note)
+VALUES (?, ?, ?, ?);
+
+getTransactionsByProduct:
+SELECT * FROM stock_transaction
+WHERE productId = ?
+ORDER BY createdAt DESC;
+
+getAllTransactions:
+SELECT * FROM stock_transaction
+ORDER BY createdAt DESC;

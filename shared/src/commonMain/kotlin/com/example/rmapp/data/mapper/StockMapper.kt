@@ -1,14 +1,12 @@
 package com.example.rmapp.data.mapper
 
 import com.example.rmapp.db.stock.Stock
-import com.example.rmapp.domain.model.StockItem
 
-fun Stock.toDomain(): StockItem {
-    return StockItem(
+fun Stock.toDomain(): Stock {
+    return Stock(
         id = id,
-        name = name,
+        productId = productId,
         quantity = quantity,
-        unitPrice = unitPrice,
         minimumThreshold = minimumThreshold
     )
 }

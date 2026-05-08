@@ -20,11 +20,10 @@ class ProductRepositoryImpl(
             .map { list ->
                 list.map {
                     Product(
-                        id = it.id.toString(),
+                        id = it.id,
                         name = it.name,
-                        unit = it.unit,
                         sellingPrice = it.sellingPrice ?: 0.0,
-                        costPrice = it.costPrice ?: 0.0
+                        costPrice = it.costPrice ?: 0.0,
                     )
                 }
             }
@@ -36,11 +35,10 @@ class ProductRepositoryImpl(
             .map { list ->
                 list.map {
                     Product(
-                        id = it.id.toString(),
+                        id = it.id,
                         name = it.name,
-                        unit = it.unit,
                         sellingPrice = it.sellingPrice ?: 0.0,
-                        costPrice = it.costPrice ?: 0.0
+                        costPrice = it.costPrice ?: 0.0,
                     )
                 }
             }
@@ -48,7 +46,6 @@ class ProductRepositoryImpl(
     override suspend fun insert(product: Product) {
         queries.insertProduct(
             name = product.name,
-            unit = product.unit,
             sellingPrice = product.sellingPrice,
             costPrice = product.costPrice
         )
@@ -57,14 +54,13 @@ class ProductRepositoryImpl(
     override suspend fun update(product: Product) {
         queries.updateProduct(
             name = product.name,
-            unit = product.unit,
             sellingPrice = product.sellingPrice,
             costPrice = product.costPrice,
-            id = product.id.toLong()
+            id = product.id
         )
     }
 
-    override suspend fun delete(id: String) {
-        queries.deleteProduct(id.toLong())
+    override suspend fun delete(id: Long) {
+        queries.deleteProduct(id)
     }
 }

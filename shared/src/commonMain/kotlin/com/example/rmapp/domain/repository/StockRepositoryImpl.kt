@@ -24,7 +24,7 @@ class StockRepositoryImpl(
                 list.map {
                     Stock(
                         id = it.id.toString(),
-                        productId = it.productId.toString(),
+                        productId = it.productId,
                         quantity = it.quantity,
                         minimumThreshold = it.minimumThreshold
                     )
@@ -39,7 +39,7 @@ class StockRepositoryImpl(
                 list.map {
                     Stock(
                         id = it.id.toString(),
-                        productId = it.productId.toString(),
+                        productId = it.productId,
                         quantity = it.quantity,
                         minimumThreshold = it.minimumThreshold
                     )
@@ -64,7 +64,7 @@ class StockRepositoryImpl(
             }
 
     override suspend fun applyTransaction(
-        productId: String,
+        productId: Long,
         type: String,
         quantity: Double,
         note: String?
@@ -81,11 +81,11 @@ class StockRepositoryImpl(
 
             stockQueries.updateStockQuantity(
                 delta,
-                productId.toLong()
+                productId
             )
 
             txQueries.insertTransaction(
-                productId = productId.toLong(),
+                productId = productId,
                 type = type,
                 quantity = quantity,
                 note = note

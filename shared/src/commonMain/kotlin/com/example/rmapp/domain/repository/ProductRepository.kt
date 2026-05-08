@@ -13,5 +13,5 @@ interface ProductRepository {
 
     suspend fun update(product: Product)
 
-    suspend fun delete(id: String)
+    suspend fun delete(id: Long)
 }

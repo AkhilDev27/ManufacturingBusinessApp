@@ -12,7 +12,8 @@ import com.example.rmapp.presentation.TopAppBarSection
 fun MasterScreen(
     onProductsClick: () -> Unit = {},
     onCustomersClick: () -> Unit = {},
-    onInventoryClick: () -> Unit = {}
+    onInventoryClick: () -> Unit = {},
+    onUnitMasterClick: () -> Unit = {}
 ) {
 
     Column {

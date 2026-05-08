@@ -13,7 +13,7 @@ interface StockRepository {
     fun getTransactions(productId: String): Flow<List<StockTransaction>>
 
     suspend fun applyTransaction(
-        productId: String,
+        productId: Long,
         type: String,
         quantity: Double,
         note: String? = null

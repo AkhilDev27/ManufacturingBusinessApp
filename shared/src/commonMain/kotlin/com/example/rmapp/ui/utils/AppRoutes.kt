@@ -5,6 +5,7 @@ object AppRoutes {
     const val PRODUCTS = "products"
     const val CUSTOMERS = "customers"
     const val STOCK = "stock"
+    const val UNIT_MASTER = "unit_master"
 
     const val PRODUCTS_FORM = "products_form"
     const val PRODUCTS_FORM_WITH_ID = "products_form/{productId}"

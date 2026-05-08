@@ -1,7 +1,6 @@
 CREATE TABLE product (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
-    unit TEXT NOT NULL,
     sellingPrice REAL,
     costPrice REAL
 );
@@ -15,12 +14,12 @@ SELECT * FROM product
 WHERE name LIKE '%' || ? || '%';
 
 insertProduct:
-INSERT INTO product(name, unit, sellingPrice, costPrice)
-VALUES (?, ?, ?, ?);
+INSERT INTO product(name, sellingPrice, costPrice)
+VALUES (?, ?, ?);
 
 updateProduct:
 UPDATE product
-SET name = ?, unit = ?, sellingPrice = ?, costPrice = ?
+SET name = ?, sellingPrice = ?, costPrice = ?
 WHERE id = ?;
 
 deleteProduct:

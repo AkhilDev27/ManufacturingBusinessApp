@@ -13,15 +13,15 @@ class StockUseCase(
     fun getTransactions(productId: String) =
         repo.getTransactions(productId)
 
-    suspend fun produce(productId: String, qty: Double) {
+    suspend fun produce(productId: Long, qty: Double) {
         repo.applyTransaction(productId, "PRODUCTION", qty)
     }
 
-    suspend fun sell(productId: String, qty: Double) {
+    suspend fun sell(productId: Long, qty: Double) {
         repo.applyTransaction(productId, "SALE", qty)
     }
 
-    suspend fun adjust(productId: String, qty: Double) {
+    suspend fun adjust(productId: Long, qty: Double) {
         repo.applyTransaction(productId, "ADJUSTMENT", qty)
     }
 }

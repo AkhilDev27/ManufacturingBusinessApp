@@ -53,12 +53,12 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.FocusRequester.Companion.FocusRequesterFactory.component1
 import androidx.compose.ui.focus.FocusRequester.Companion.FocusRequesterFactory.component2
 import androidx.compose.ui.focus.FocusRequester.Companion.FocusRequesterFactory.component3
-import androidx.compose.ui.focus.FocusRequester.Companion.FocusRequesterFactory.component4
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -79,7 +79,6 @@ fun ProductScreen(
     val products by vm.products.collectAsState()
     val search by vm.searchQuery.collectAsState()
 
-    val sheetState = rememberModalBottomSheetState()
     var selectedProduct by remember { mutableStateOf<Product?>(null) }
 
     val snackbarHostState = remember { SnackbarHostState() }
@@ -257,7 +256,7 @@ fun ProductCard(
                 Column(modifier = Modifier.weight(1f)) {
 
                     Text(
-                        text = "${product.name} - (${product.unit})",
+                        text = product.name,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
@@ -329,30 +328,13 @@ fun ProductCard(
     }
 }
 
-@Composable
-fun PriceTag(label: String, value: String) {
-    Card(
-        shape = MaterialTheme.shapes.small,
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
-        )
-    ) {
-        Column(
-            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
-        ) {
-            Text(text = label, style = MaterialTheme.typography.labelSmall)
-            Text(text = value, style = MaterialTheme.typography.bodySmall)
-        }
-    }
-}
-
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductForm(
     product: Product,
     onSave: (Product) -> Unit
 ) {
     var name by remember { mutableStateOf(product.name) }
-    var unit by remember { mutableStateOf(product.unit) }
     var cost by remember {
         mutableStateOf(
             product.costPrice.takeIf { it != 0.0 }?.toString() ?: ""
@@ -371,7 +353,7 @@ fun ProductForm(
 
     // Focus management
     val focusManager = LocalFocusManager.current
-    val (nameFocus, unitFocus, costFocus, sellFocus) = FocusRequester.createRefs()
+    val (nameFocus, costFocus, sellFocus) = FocusRequester.createRefs()
 
     Column(
         Modifier
@@ -397,23 +379,10 @@ fun ProductForm(
             modifier = Modifier
                 .fillMaxWidth()
                 .focusRequester(nameFocus),
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-            keyboardActions = KeyboardActions(
-                onNext = { unitFocus.requestFocus() }
-            )
-        )
-
-        Spacer(Modifier.height(8.dp))
-
-        // UNIT
-        OutlinedTextField(
-            value = unit,
-            onValueChange = { unit = it },
-            label = { Text("Unit (kg, pcs, etc)") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .focusRequester(unitFocus),
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Next,
+                capitalization = KeyboardCapitalization.Words
+            ),
             keyboardActions = KeyboardActions(
                 onNext = { costFocus.requestFocus() }
             )
@@ -497,7 +466,6 @@ fun ProductForm(
                     onSave(
                         product.copy(
                             name = name.trim(),
-                            unit = unit.trim(),
                             costPrice = costValue!!,
                             sellingPrice = sellValue!!
                         )

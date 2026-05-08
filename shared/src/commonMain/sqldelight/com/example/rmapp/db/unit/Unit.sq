@@ -1,0 +1,27 @@
+CREATE TABLE unit (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    shortName TEXT NOT NULL
+);
+
+getAllUnits:
+SELECT * FROM unit
+ORDER BY name;
+
+searchUnits:
+SELECT * FROM unit
+WHERE name LIKE '%' || ? || '%'
+OR shortName LIKE '%' || ? || '%';
+
+insertUnit:
+INSERT INTO unit(name, shortName)
+VALUES (?, ?);
+
+updateUnit:
+UPDATE unit
+SET name = ?, shortName = ?
+WHERE id = ?;
+
+deleteUnit:
+DELETE FROM unit
+WHERE id = ?;

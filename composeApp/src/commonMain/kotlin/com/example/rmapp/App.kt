@@ -53,7 +53,14 @@ val authModule = module {
 }
 
 val dashboardModule = module {
-    factory { DashboardUseCase(productionRepo = get(), salesRepo = get(), stockRepo = get(), productRepo = get()) }
+    factory {
+        DashboardUseCase(
+            productionRepo = get(),
+            salesRepo = get(),
+            stockRepo = get(),
+            productRepo = get()
+        )
+    }
     factory { DashboardViewModel(useCase = get()) }
 }
 

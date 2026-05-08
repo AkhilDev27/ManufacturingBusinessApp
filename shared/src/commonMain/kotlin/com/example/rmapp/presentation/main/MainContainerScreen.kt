@@ -8,7 +8,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.rmapp.presentation.bottom_navigation.BottomNavigationBar
 import com.example.rmapp.presentation.bottom_navigation.NavigationItem
-import com.example.rmapp.presentation.customers.CustomerFormScreen
 import com.example.rmapp.presentation.customers.CustomerScreen
 import com.example.rmapp.presentation.customers.CustomerViewModel
 import com.example.rmapp.presentation.dashboard.DashboardScreen
@@ -16,7 +15,6 @@ import com.example.rmapp.presentation.inventory.InventoryFormScreen
 import com.example.rmapp.presentation.inventory.InventoryScreen
 import com.example.rmapp.presentation.inventory.InventoryViewModel
 import com.example.rmapp.presentation.master.MasterScreen
-import com.example.rmapp.presentation.products.ProductFormScreen
 import com.example.rmapp.presentation.products.ProductScreen
 import com.example.rmapp.presentation.products.ProductViewModel
 import com.example.rmapp.presentation.stock.StockScreen
@@ -46,7 +44,8 @@ fun MainContainerScreen() {
                 MasterScreen(
                     onProductsClick = { navController.navigate(AppRoutes.PRODUCTS) },
                     onCustomersClick = { navController.navigate(AppRoutes.CUSTOMERS) },
-                    onInventoryClick = { navController.navigate(AppRoutes.INVENTORY) })
+                    onInventoryClick = { navController.navigate(AppRoutes.INVENTORY) },
+                    onUnitMasterClick = { navController.navigate(AppRoutes.UNIT_MASTER) })
             }
 
             composable(AppRoutes.STOCK) {
@@ -59,31 +58,9 @@ fun MainContainerScreen() {
                 ProductScreen(vm, navController)
             }
 
-            composable(AppRoutes.PRODUCTS_FORM) {
-                val vm: ProductViewModel = koinViewModel()
-                ProductFormScreen(vm, navController, null)
-            }
-
-            composable(AppRoutes.PRODUCTS_FORM_WITH_ID) { backStack ->
-                val vm: ProductViewModel = koinViewModel()
-                val id = backStack.arguments?.getString("productId")
-                ProductFormScreen(vm, navController, id)
-            }
-
             composable(AppRoutes.CUSTOMERS) {
                 val vm: CustomerViewModel = koinViewModel()
                 CustomerScreen(vm, navController)
-            }
-
-            composable(AppRoutes.CUSTOMERS_FORM) {
-                val vm: CustomerViewModel = koinViewModel()
-                CustomerFormScreen(vm, navController, null)
-            }
-
-            composable(AppRoutes.CUSTOMERS_FORM_WITH_ID) { backStack ->
-                val vm: CustomerViewModel = koinViewModel()
-                val id = backStack.arguments?.getString("customerId")
-                CustomerFormScreen(vm, navController, id)
             }
 
             composable(AppRoutes.INVENTORY) {

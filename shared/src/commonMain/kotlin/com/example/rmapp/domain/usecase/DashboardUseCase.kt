@@ -30,9 +30,9 @@ class DashboardUseCase(
             recentBatches,
             productList ->
 
-            val totalProduction = productionList.sumOf { it.outputQty.toDouble() }
+            val totalProduction = productionList.sumOf { it.outputQty }
 
-            val totalSales = salesList.sumOf { it.totalAmount.toDouble() }
+            val totalSales = salesList.sumOf { it.totalAmount }
 
             val stockValue = stockList.sumOf { stock ->
                 val product = productList.firstOrNull { it.id == stock.productId }

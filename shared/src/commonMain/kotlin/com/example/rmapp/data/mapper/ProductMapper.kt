@@ -1,12 +1,11 @@
 package com.example.rmapp.data.mapper
 
-import com.example.rmapp.db.products.Product
+import com.example.rmapp.domain.model.Product
 
 fun Product.toDomain(): Product {
     return Product(
         id = id,
         name = name,
-        unit = unit,
         sellingPrice = sellingPrice,
         costPrice = costPrice
     )

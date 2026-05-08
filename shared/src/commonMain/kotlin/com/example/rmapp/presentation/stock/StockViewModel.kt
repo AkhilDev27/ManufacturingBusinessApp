@@ -17,13 +17,13 @@ class StockViewModel(
     val lowStock = useCase.getLowStock()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
-    fun produce(productId: String) {
+    fun produce(productId: Long) {
         viewModelScope.launch {
             useCase.produce(productId, 1.0)
         }
     }
 
-    fun sell(productId: String) {
+    fun sell(productId: Long) {
         viewModelScope.launch {
             useCase.sell(productId, 1.0)
         }

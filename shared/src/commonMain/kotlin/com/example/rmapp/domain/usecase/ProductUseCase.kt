@@ -18,5 +18,5 @@ class ProductUseCase(
 
     suspend fun update(product: Product) = repo.update(product)
 
-    suspend fun delete(id: String) = repo.delete(id)
+    suspend fun delete(id: Long) = repo.delete(id)
 }
